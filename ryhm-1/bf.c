@@ -1,25 +1,40 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MEM_LENGTH 8
-#define MEM_WIDTH (MEM_LENGTH / 8)
+#define MEM_WIDTH 8
+#define MEM_HEIGHT (MEM_LENGTH / MEM_WIDTH)
 
-char memory[MEM_LENGTH];
-int pointer = 0;
+typedef struct
+{
+	char memory[MEM_LENGTH];
+	int pointer;
+	int sulge;
+} interp_muutujad_t;
 
-int sulge = 0;
+enum Error
+{
+	OK = 0,
+	OVERFLOW = 1,
+	UNDERFLOW = 2
+};
+
+interp_muutujad_t muutujad;
 
 // Prindib brainfucki mälu sisu
 void print_memory()
 {
   int i = 0;
-  for (; i < MEM_WIDTH; i++)
+  for (; i < MEM_HEIGHT; i++)
   {
     int j = 0;
-    for (; j < 8; j++)
+    for (; j < MEM_WIDTH; j++)
     {
-      int idx = i * MEM_WIDTH + j;
-      printf("%d ", memory[idx]);
+      int idx = i * MEM_HEIGHT + j;
+      printf("%d ", muutujad.memory[idx]);
     }
+
     printf("\n");
   }
 }
@@ -32,58 +47,72 @@ void interp(const char *src)
 {
   int i = 0;
   char c;
-  // põhimõttelt
-  // for (; c; c = src[i++])
+  int code_length = strlen(src);
   while (c = src[i])
-  { // või while ((c = src[i] != NULL)) .., aga vajab include'i stdlib.h
-    printf("%c", c);
+  {
     switch (c)
     {
     case '+':
-      memory[pointer]++;
+      muutujad.memory[muutujad.pointer]++;
       break;
     case '-':
-      memory[pointer]--;
+      muutujad.memory[muutujad.pointer]--;
       break;
     case '<':
-      pointer--;
+      if (muutujad.pointer <= 0) {
+	printf("Pointer underflow\n");
+	exit(UNDERFLOW);
+      }
+
+      muutujad.pointer--;
       break;
     case '>':
-      // TODO: Lisa overflow protection
-      pointer++;
+      if (muutujad.pointer >= MEM_LENGTH) {
+	printf("Pointer overflow");
+	exit(OVERFLOW);
+      }
+
+      muutujad.pointer++;
       break;
     case '.':
-      printf("%c", memory[pointer]);
+      printf("%c", muutujad.memory[muutujad.pointer]);
       break;
     case ',':
-      scanf("%c", &memory[pointer]);
+      scanf("%c", &muutujad.memory[muutujad.pointer]);
       break;
     case '[':
-      if (memory[pointer] == 0)
+      if (muutujad.memory[muutujad.pointer] == 0)
       {
-        sulge = 0;
-        do
-        {
-          if (src[i] == '[')
-            sulge++;
-          else if (src[i] == ']')
-            sulge--;
-          i++;
-        } while (sulge);
+        muutujad.sulge = 1;
+
+	while (muutujad.sulge) {
+		if (i >= code_length) {
+			printf("Overflow with code pointer");
+			exit(OVERFLOW);
+		}
+
+		i++;
+                if (src[i] == '[') muutujad.sulge++;
+                if (src[i] == ']') muutujad.sulge--;
+	}
       }
+
       break;
     case ']':
-      if (memory[pointer] == 0)
+      if (muutujad.memory[muutujad.pointer] != 0)
       {
-        sulge = -1;
-        do
-        {
-          if (src[i] == '[')
-            sulge++;
-          else if (src[i] == ']')
-            sulge--;
-          i--;
-        } while (sulge);
+        muutujad.sulge = -1;
+
+	while (muutujad.sulge) {
+		if (i <= 0) {
+			printf("Underflow with code pointer");
+			exit(UNDERFLOW);
+		}
+
+		i--;
+                if (src[i] == '[') muutujad.sulge++;
+                if (src[i] == ']') muutujad.sulge--;
+	}
       }
 
       break;
@@ -100,6 +129,7 @@ int main()
   const char *str = "++[>+<-]";
   interp(str);
   print_memory();
+
   // output peaks olema 0 2 0 ...
   return 0;
 }
