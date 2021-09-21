@@ -6,18 +6,11 @@
 #include "bf.h"
 #include "mem_array.h"
 
-typedef enum
-{
-	OK,
-	OVERFLOW_ERROR,
-	UNDERFLOW_ERROR
-} error_t;
-
 /*
  * interpreteerib brainfucki koodi
  * src - lähtekoodi massiiv, mille viimane element on null-byte
  */
-void interp(const char *src)
+void interp(const char *src, char *result)
 {
   int i = 0;
   char c;
@@ -40,7 +33,7 @@ void interp(const char *src)
       move_left();
       break;
     case '.':                        // output
-      print();
+      print(result);
       break;
     case ',':                        // input
       input();
@@ -51,6 +44,14 @@ void interp(const char *src)
     case ']':
       i = loop_right(i, src, code_length);
       break;
+    case '$':
+      // TODO: Implement new oprator
+      // For example:
+      //   Print current memory location (pointer)
+      //   Print debug: print memory value as int
+      break
+    case '#':
+      break
     }
 
     i++;

@@ -23,10 +23,15 @@ void inc(void);
 void dec(void);
 
 
-void print(void);
+void print(char *result);
 void input(void);
 
-
+/**
+ * Vasaku kantsulu tsükkel
+ */
 int loop_left(int i, const char* src, int code_length);
 
+/**
+ * Parema kantsulu tsükkel
+ */
 int loop_right(int i, const char* src, int code_length);

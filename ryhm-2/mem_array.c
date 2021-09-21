@@ -1,4 +1,8 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "mem_array.h"
+#include "error.h"
 
 // makrod, mis asendatakse kompileerimise ajal koodi sisse
 #define MEM_LENGTH 16
@@ -11,6 +15,7 @@ typedef struct
 	int pointer;
 
 	int sulge;
+	int char_amt;
 } muutujad_t;
 
 muutujad_t muutujad;
@@ -66,9 +71,10 @@ void dec(void)
       muutujad.memory[muutujad.pointer]--;
 }
 
-void print(void)
+void print(char* result)
 {
-      printf("%c", muutujad.memory[muutujad.pointer]); // väljastab karakteri asukohalt memory[pointer]
+      sprintf(result + muutujad.char_amt, "%c", muutujad.memory[muutujad.pointer]); // väljastab karakteri asukohalt memory[pointer]
+      muutujad.char_amt++; // muutujad.char_amt += 1 või muutujad.char_amt = muutujad.char_amt + 1;
 }
 
 void input(void)
@@ -78,42 +84,44 @@ void input(void)
 
 int loop_left(int i, const char* src, int code_length)
 {
-      // TODO: fix algo
       if (muutujad.memory[muutujad.pointer] == 0)
       {
         muutujad.sulge = 1;
 	while (muutujad.sulge) {
-	  i++;
 	  if (i >= code_length - 1) {
 	    printf("Code pointer out of code range: %d\n", OVERFLOW_ERROR);
 	    exit(OVERFLOW_ERROR);
 	  }
 
+	  i++;
           if (src[i] == '[')
             muutujad.sulge++;
           else if (src[i] == ']')
             muutujad.sulge--;
 	}
       }
+
+      return i;
 }
 
-int loop_right(int i, const char* src, int_code_length)
+int loop_right(int i, const char* src, int code_length)
 {
       if (muutujad.memory[muutujad.pointer] != 0)
       {
         muutujad.sulge = -1;
 	while (muutujad.sulge) {
-	  i--;
-
 	  if (i <= 0) {
 	    printf("Code pointer out of code range: %d\n", UNDERFLOW_ERROR);
 	    exit(UNDERFLOW_ERROR);
 	  }
 
+	  i--;
           if (src[i] == '[')
             muutujad.sulge++;
           else if (src[i] == ']')
             muutujad.sulge--;
 	}
       }
+
+      return i;
 }
