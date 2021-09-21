@@ -1,13 +1,11 @@
 CC = gcc
 CFLAGS = -std=c99 -g
 
-all: bf
+bf_array: bf.o mem_array.o
+	$(CC) $(CFLAGS) main.c bf.o mem_array.o -o bf_array
 
-bf: bf.c
-	$(CC) $(CFLAGS) bf.c -o bf
-
-demo: demo.c
-	$(CC) $(CFLAGS) demo.c -o demo
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf *.o bf
+	rm -rf *.o bf bf_array
