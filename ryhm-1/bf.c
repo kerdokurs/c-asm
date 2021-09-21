@@ -10,7 +10,7 @@
 * Interpreteerib brainfucki.
 * src - karakterite massiiv, mille lõpus on null-byte
 */
-void interp(const char *src, char* result)
+void interp(const char *src, char *result)
 {
   int i = 0;
   char c;
