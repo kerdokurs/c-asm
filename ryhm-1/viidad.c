@@ -21,7 +21,7 @@ void print_demo(demo_t *demo)
   printf("%d\n", demo->x);
 }
 
-// NB! size_t jaoks importida stdef.h (või mõni muu päisefail, kus see defineeritud)
+// NB! size_t jaoks importida stddef.h (või mõni muu päisefail, kus see defineeritud)
 /* void print_array(int *arr, size_t n)
 {
   for (int i = 0; i < n; i++)
