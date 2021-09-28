@@ -82,46 +82,42 @@ void input(void)
       scanf("%c", &muutujad.memory[muutujad.pointer]); // võtab kasutajalt sisendi ja paneb memory[pointer] asukohta
 }
 
-int loop_left(int i, const char* src, int code_length)
+void loop_left(int *i, const char* src, int code_length)
 {
       if (muutujad.memory[muutujad.pointer] == 0)
       {
         muutujad.sulge = 1;
 	while (muutujad.sulge) {
-	  if (i >= code_length - 1) {
+	  if (*i >= code_length - 1) {
 	    printf("Code pointer out of code range: %d\n", OVERFLOW_ERROR);
 	    exit(OVERFLOW_ERROR);
 	  }
 
-	  i++;
-          if (src[i] == '[')
+	  (*i)++;
+          if (src[*i] == '[')
             muutujad.sulge++;
-          else if (src[i] == ']')
+          else if (src[*i] == ']')
             muutujad.sulge--;
 	}
       }
-
-      return i;
 }
 
-int loop_right(int i, const char* src, int code_length)
+void loop_right(int *i, const char* src, int code_length)
 {
       if (muutujad.memory[muutujad.pointer] != 0)
       {
         muutujad.sulge = -1;
 	while (muutujad.sulge) {
-	  if (i <= 0) {
+	  if (*i <= 0) {
 	    printf("Code pointer out of code range: %d\n", UNDERFLOW_ERROR);
 	    exit(UNDERFLOW_ERROR);
 	  }
 
-	  i--;
-          if (src[i] == '[')
+	  (*i)--;
+          if (src[*i] == '[')
             muutujad.sulge++;
-          else if (src[i] == ']')
+          else if (src[*i] == ']')
             muutujad.sulge--;
 	}
       }
-
-      return i;
 }

@@ -29,9 +29,9 @@ void input(void);
 /**
  * Vasaku kantsulu tsükkel
  */
-int loop_left(int i, const char* src, int code_length);
+void loop_left(int *i, const char* src, int code_length);
 
 /**
  * Parema kantsulu tsükkel
  */
-int loop_right(int i, const char* src, int code_length);
+void loop_right(int *i, const char* src, int code_length);

@@ -39,19 +39,23 @@ void interp(const char *src, char *result)
       input();
       break;
     case '[':
-      i = loop_left(i, src, code_length);
+      printf("[%d ", i);
+      loop_left(&i, src, code_length);
+      printf(", %d\n", i);
       break;
     case ']':
-      i = loop_right(i, src, code_length);
+      printf("]%d ", i);
+      loop_right(&i, src, code_length);
+      printf(", %d\n", i);
       break;
     case '$':
       // TODO: Implement new oprator
       // For example:
       //   Print current memory location (pointer)
       //   Print debug: print memory value as int
-      break
+      break;
     case '#':
-      break
+      break;
     }
 
     i++;

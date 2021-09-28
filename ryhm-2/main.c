@@ -5,8 +5,16 @@
 #include "mem_array.h"
 #include "test.h"
 
-int main()
+/*
+ * `argc` - argumentide arv
+ * `argv` - argumentide (sõnede) massiiv 
+ */
+int main(int argc, char **argv)
 {
+  // TODO: Print all program command line arguments
+  // Input: ./bf_array 1 2 3
+  // Ouput: 1 2 3
+
   // const char* src = "+++.>,++.";
   // const char *src = "++[>+<-]";
   // const char* src = ",[>+.<-.]";
