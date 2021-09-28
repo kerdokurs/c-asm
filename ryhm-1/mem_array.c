@@ -90,7 +90,7 @@ void left_loop(int *i, const char *src, int code_length)
         exit(OVERFLOW);
       }
 
-      *i++;
+      (*i)++;
       if (src[*i] == '[')
         muutujad.sulge++;
       if (src[*i] == ']')
@@ -113,7 +113,7 @@ void right_loop(int *i, const char *src, int code_length)
         exit(UNDERFLOW);
       }
 
-      *i--;
+      (*i)--;
       if (src[*i] == '[')
         muutujad.sulge++;
       if (src[*i] == ']')
