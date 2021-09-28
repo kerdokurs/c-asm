@@ -39,16 +39,21 @@ void interp(const char *src, char *result)
       input();
       break;
     case '[':
-      i = left_loop(i, src, code_length);
+      left_loop(&i, src, code_length);
       break;
     case ']':
-      i = right_loop(i, src, code_length);
+      // See funktsioon ei tagasta midagi, vaid muudab muutujat `i` viida alusel
+      right_loop(&i, src, code_length);
       break;
     case '$':
       // TODO: Implement yourself
       // For example: print memory location or memory content as int
+      // For example
+      // print_memory_location();
       break;
     case '#':
+      // For example
+      // print_memory_as_int();
       break;
     }
 

@@ -76,7 +76,7 @@ void input(void)
   scanf("%c", &muutujad.memory[muutujad.pointer]);
 }
 
-int left_loop(int i, const char *src, int code_length)
+void left_loop(int *i, const char *src, int code_length)
 {
   if (muutujad.memory[muutujad.pointer] == 0)
   {
@@ -84,24 +84,22 @@ int left_loop(int i, const char *src, int code_length)
 
     while (muutujad.sulge)
     {
-      if (i >= code_length)
+      if (*i >= code_length)
       {
         printf("Overflow with code pointer");
         exit(OVERFLOW);
       }
 
-      i++;
-      if (src[i] == '[')
+      *i++;
+      if (src[*i] == '[')
         muutujad.sulge++;
-      if (src[i] == ']')
+      if (src[*i] == ']')
         muutujad.sulge--;
     }
   }
-
-  return i;
 }
 
-int right_loop(int i, const char *src, int code_length)
+void right_loop(int *i, const char *src, int code_length)
 {
   if (muutujad.memory[muutujad.pointer] != 0)
   {
@@ -109,19 +107,17 @@ int right_loop(int i, const char *src, int code_length)
 
     while (muutujad.sulge)
     {
-      if (i <= 0)
+      if (*i <= 0)
       {
         printf("Underflow with code pointer");
         exit(UNDERFLOW);
       }
 
-      i--;
-      if (src[i] == '[')
+      *i--;
+      if (src[*i] == '[')
         muutujad.sulge++;
-      if (src[i] == ']')
+      if (src[*i] == ']')
         muutujad.sulge--;
     }
   }
-
-  return i;
 }

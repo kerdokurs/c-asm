@@ -6,8 +6,17 @@
 #include "bf.h"
 #include "mem_array.h"
 
-int main()
+/*
+ * `argc` - käsurea argumentide arv
+ * `argc` - käsurea argumendid (nende massiiv, viit sellele)
+ */
+int main(int argc, char **argv)
 {
+  // TODO: Print all program command line arguments
+  // Command
+  // ./bf 1 2 3
+  // Ouput: 1 2 3
+
   // hello world programm
   // const char* str = "++++++++[>++++[>++>++>+++>+++>+<<<<-]>+>+>->>[<][<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
   // const char *str = ",[>+<-]>.";

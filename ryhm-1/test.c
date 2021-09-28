@@ -9,6 +9,8 @@ bool test(const char *in, const char *out)
   char result[80];
   interp(in, result);
 
+  printf("%s\n", result);
+
   char c;
   int i = 0;
   while (c = out[i])
