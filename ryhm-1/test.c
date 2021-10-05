@@ -6,7 +6,7 @@
 
 bool test(const char *in, const char *out)
 {
-  char result[80];
+  /* char result[80];
   interp(in, result);
 
   printf("%s\n", result);
@@ -19,6 +19,7 @@ bool test(const char *in, const char *out)
       return false;
     i++;
   }
+  */
 
   return true;
 }
