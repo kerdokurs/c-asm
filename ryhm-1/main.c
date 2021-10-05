@@ -19,7 +19,7 @@ int main(int argc, char **argv)
   char expected[OUT_LEN] = { 0 };
 
   // järgnev for-tsükkel ja memset on ekvivalentsed
-  // arusaadavama ja kiirem on võib-olla memset (uuri huvi korral funktsiooni lähemalt)
+  // arusaadavama ja kiirem on võib-olla memset (uuri huvi korral funktsiooni lähemalt; mida teeb memcpy?)
   for (int i = 0; i < OUT_LEN; i++)
     expected[i] = 0;
   memset(expected, 0, OUT_LEN);
