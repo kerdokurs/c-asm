@@ -19,7 +19,7 @@ int main(int argc, char **argv)
   char expected[OUT_LEN] = { 0 };
 
   // järgnev for-tsükkel ja memset on ekvivalentsed
-  // arusaadavama ja kiirem on võib-olla memset (uuri huvi korral funktsiooni lähemalt; mida teeb memcpy?)
+  // arusaadavam ja kiirem on võib-olla memset (uuri huvi korral funktsiooni lähemalt; mida teeb memcpy?)
   for (int i = 0; i < OUT_LEN; i++)
     expected[i] = 0;
   memset(expected, 0, OUT_LEN);
@@ -39,9 +39,9 @@ int main(int argc, char **argv)
   // TODO 1:
   // ./bf_array +++. A >+. B
   // 1. interpreteerib +++.
-  // 2. võrdleb tulemust "A"
+  // 2. võrdleb tulemust "A" -> FAIL
   // 3. interpreteerib >+.
-  // 4. võrdleb tulemust "B"
+  // 4. võrdleb tulemust "B" -> FAIL
   // TODO 2:
   // tühjendab mälu, algseadistab muutujad_t väljad, kasutades reset_memory()
   // TODO 3:
