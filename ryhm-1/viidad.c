@@ -136,5 +136,13 @@ int main()
   // z peaks olema 6
   printf("z = %d\n", z);
 
+  char* f, g;
+  char *h, j;
+
+  printf("f %ld\n", sizeof(f));
+  printf("g %ld\n", sizeof(g));
+  printf("h %ld\n", sizeof(h));
+  printf("j %ld\n", sizeof(j));
+
   return 0;
 }

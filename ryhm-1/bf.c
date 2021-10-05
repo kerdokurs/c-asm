@@ -6,17 +6,13 @@
 #include "error.h"
 #include "mem_array.h"
 
-/*
-* Interpreteerib brainfucki.
-* src - karakterite massiiv, mille lõpus on null-byte
-*/
-void interp(const char *src, char *result)
+void interp(interp_t *params)
 {
   int i = 0;
   char c;
-  int code_length = strlen(src);
+  int code_length = strlen(params->cmd);
 
-  while (c = src[i])
+  while (c = params->cmd[i])
   {
     switch (c)
     {
@@ -33,17 +29,17 @@ void interp(const char *src, char *result)
       move_right();
       break;
     case '.':
-      print(result);
+      print(params->output);
       break;
     case ',':
       input();
       break;
     case '[':
-      left_loop(&i, src, code_length);
+      left_loop(&i, params->cmd, code_length);
       break;
     case ']':
       // See funktsioon ei tagasta midagi, vaid muudab muutujat `i` viida alusel
-      right_loop(&i, src, code_length);
+      right_loop(&i, params->cmd, code_length);
       break;
     case '$':
       // TODO: Implement yourself

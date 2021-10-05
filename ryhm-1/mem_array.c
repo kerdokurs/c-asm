@@ -10,9 +10,11 @@
 
 typedef struct
 {
-  char memory[MEM_LENGTH];
-  int pointer;
-  int sulge;
+  char memory[MEM_LENGTH]; // brainfucki mälu
+  int pointer;             // mäluviit
+  int sulge;               // sulgude arv (kasutatud tsüklite jaoks)
+
+  int char_amt;            // väljastatud karakterite arv
 } muutujad_t;
 
 muutujad_t muutujad;
@@ -68,7 +70,9 @@ void print_memory(void)
 
 void print(char *result)
 {
-  sprintf(result, "%c", muutujad.memory[muutujad.pointer]);
+  // TODO: kasuta muutujat, mis hoiab meeles juba väljastatud karakterite arvu, et järgmine väljastatav karakter panna sõnele otsa (puhvris/massiivis järgmise koha peale)
+  sprintf((result + muutujad.char_amt), "%c", muutujad.memory[muutujad.pointer]);
+  muutujad.char_amt++;
 }
 
 void input(void)
