@@ -12,6 +12,9 @@ bf_array: main.c mem_array.o test.o bf.o
 viidad: viidad.c
 	$(CC) $(CFLAGS) viidad.c -o viidad
 
+dyn: dyn.c list.o
+	$(CC) $(CFLAGS) dyn.c list.o -o dyn
+
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
 

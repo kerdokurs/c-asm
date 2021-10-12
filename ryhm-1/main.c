@@ -30,7 +30,9 @@ int main(int argc, char **argv)
     char *output = argv[2];
     strcpy(params.cmd, cmd);
     strcpy(expected, output);
-  } else {
+  }
+  else
+  {
     printf("No code provided. Using default code.\n");
     strcpy(params.cmd, default_code);
   }

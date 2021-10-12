@@ -10,6 +10,8 @@
 
 typedef struct
 {
+  // TODO: kasuta list_t
+  // list_t *memory;       // brainfucki mälu
   char memory[MEM_LENGTH]; // brainfucki mälu
   int pointer;             // mäluviit
   int sulge;               // sulgude arv (kasutatud tsüklite jaoks)
