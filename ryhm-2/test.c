@@ -5,7 +5,8 @@
 
 bool test(const char* in, const char* out)
 {
-	char result[10] = "";
+	/*
+  char result[10] = "";
 
 	interp(in, result);
 
@@ -17,6 +18,7 @@ bool test(const char* in, const char* out)
 			return false;
 		i++;
 	}
+  */
 
 	return true;
 }

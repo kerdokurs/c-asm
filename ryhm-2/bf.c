@@ -8,15 +8,14 @@
 
 /*
  * interpreteerib brainfucki koodi
- * src - lähtekoodi massiiv, mille viimane element on null-byte
  */
-void interp(const char *src, char *result)
+void interp(interp_t *params)
 {
   int i = 0;
   char c;
-  int code_length = strlen(src);
+  int code_length = strlen(params->cmd);
 
-  while (c = src[i])
+  while (c = params->cmd[i])
   { // põhimõttelt while c ei ole 0
     switch (c)
     {
@@ -33,20 +32,16 @@ void interp(const char *src, char *result)
       move_left();
       break;
     case '.':                        // output
-      print(result);
+      print(params->output);
       break;
     case ',':                        // input
       input();
       break;
     case '[':
-      printf("[%d ", i);
-      loop_left(&i, src, code_length);
-      printf(", %d\n", i);
+      loop_left(&i, params->cmd, code_length);
       break;
     case ']':
-      printf("]%d ", i);
-      loop_right(&i, src, code_length);
-      printf(", %d\n", i);
+      loop_right(&i, params->cmd, code_length);
       break;
     case '$':
       // TODO: Implement new oprator

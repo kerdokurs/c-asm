@@ -3,6 +3,7 @@
 
 #include "mem_array.h"
 #include "error.h"
+#include "list.h"
 
 // makrod, mis asendatakse kompileerimise ajal koodi sisse
 #define MEM_LENGTH 16
@@ -11,7 +12,7 @@
 
 typedef struct
 {
-	char memory[MEM_LENGTH];
+	list_t *memory;
 	int pointer;
 
 	int sulge;
@@ -19,6 +20,16 @@ typedef struct
 } muutujad_t;
 
 muutujad_t muutujad;
+
+void init_memory(void)
+{
+  muutujad.memory = list_make(10);
+}
+
+void deinit_memory(void)
+{
+  list_free(muutujad.memory);
+}
 
 // väljastab brainfucki mälu sisu
 void print_memory(void)
@@ -33,7 +44,7 @@ void print_memory(void)
     for (int j = 0; j < MEM_WIDTH; j++)
     {
       int idx = i * MEM_WIDTH + j;
-      printf("%d ", muutujad.memory[idx]);
+      printf("%d ", list_at(muutujad.memory, idx));
     }
     printf("\n");
   }
@@ -63,28 +74,31 @@ void move_right(void)
 
 void inc(void)
 {
-      muutujad.memory[muutujad.pointer]++; // põhimõttelt memory[pointer] += 1 v memory[pointer] = memory[pointer] + 1;
+      list_set(muutujad.memory, muutujad.pointer, list_at(muutujad.memory, muutujad.pointer) + 1); // põhimõttelt memory[pointer] += 1 v memory[pointer] = memory[pointer] + 1;
 }
 
 void dec(void)
 {
-      muutujad.memory[muutujad.pointer]--;
+      list_set(muutujad.memory, muutujad.pointer, list_at(muutujad.memory, muutujad.pointer) - 1);
 }
 
 void print(char* result)
 {
-      sprintf(result + muutujad.char_amt, "%c", muutujad.memory[muutujad.pointer]); // väljastab karakteri asukohalt memory[pointer]
+      char c = list_at(muutujad.memory, muutujad.pointer);
+      sprintf(result + muutujad.char_amt, "%c", c);
       muutujad.char_amt++; // muutujad.char_amt += 1 või muutujad.char_amt = muutujad.char_amt + 1;
 }
 
 void input(void)
 {
-      scanf("%c", &muutujad.memory[muutujad.pointer]); // võtab kasutajalt sisendi ja paneb memory[pointer] asukohta
+      char c;
+      scanf("%c", &c);
+      list_set(muutujad.memory, muutujad.pointer, c);
 }
 
 void loop_left(int *i, const char* src, int code_length)
 {
-      if (muutujad.memory[muutujad.pointer] == 0)
+      if (list_at(muutujad.memory, muutujad.pointer) == 0)
       {
         muutujad.sulge = 1;
 	while (muutujad.sulge) {
@@ -104,7 +118,7 @@ void loop_left(int *i, const char* src, int code_length)
 
 void loop_right(int *i, const char* src, int code_length)
 {
-      if (muutujad.memory[muutujad.pointer] != 0)
+      if (list_at(muutujad.memory, muutujad.pointer) != 0)
       {
         muutujad.sulge = -1;
 	while (muutujad.sulge) {
