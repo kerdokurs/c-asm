@@ -4,7 +4,7 @@
 
 #include "bf.h"
 #include "error.h"
-#include "mem_array.h"
+#include "mem.h"
 
 void interp(interp_t *params)
 {
@@ -17,17 +17,18 @@ void interp(interp_t *params)
     switch (c)
     {
     case '+':
-      inc();
+      inc(params->mem);
       break;
     case '-':
-      dec();
+      dec(params->mem);
       break;
     case '<':
-      move_left();
+      move_left(params->mem);
       break;
     case '>':
-      move_right();
+      move_right(params->mem);
       break;
+/*
     case '.':
       print(params->output);
       break;
@@ -51,6 +52,7 @@ void interp(interp_t *params)
       // For example
       // print_memory_as_int();
       break;
+*/
     }
 
     i++;

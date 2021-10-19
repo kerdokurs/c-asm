@@ -9,6 +9,12 @@ bf: bf.c
 bf_array: main.c mem_array.o test.o bf.o
 	$(CC) $(CFLAGS) main.c mem_array.o test.o bf.o -o $@
 
+bf_list: main.c mem_list.o mem.h list.o test.o bf.o
+	$(CC) $(CFLAGS) main.c mem_list.o list.o test.o bf.o -o $@
+
+bf_ll: main.c mem_ll.o mem.h list.o test.o bf.o
+	$(CC) $(CFLAGS) main.c mem_ll.o list.o test.o bf.o -o $@
+
 viidad: viidad.c
 	$(CC) $(CFLAGS) viidad.c -o viidad
 

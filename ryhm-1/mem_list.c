@@ -1,58 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "mem_array.h"
+#include "mem.h"
 #include "error.h"
+#include "list.h"
 
 #define MEM_LENGTH 16
 #define MEM_WIDTH 8
 #define MEM_HEIGHT (MEM_LENGTH / MEM_WIDTH)
 
-typedef struct
+typedef struct memory_t
 {
-  // TODO: kasuta list_t
-  // list_t *memory;       // brainfucki mälu
-  char memory[MEM_LENGTH]; // brainfucki mälu
-  int pointer;             // mäluviit
-  int sulge;               // sulgude arv (kasutatud tsüklite jaoks)
+  list_t *memory;
+  int pointer;
+} memory_t;
 
-  int char_amt;            // väljastatud karakterite arv
-} muutujad_t;
-
-muutujad_t muutujad;
-
-void move_left(void)
+memory_t *memory_make()
 {
-  if (muutujad.pointer <= 0)
+  memory_t *memory = malloc(sizeof(memory_t));
+  memory->memory = list_make(50);
+  memory->pointer = 0;
+
+  return memory;
+}
+
+void memory_free(memory_t *mem)
+{
+  // TODO
+}
+
+void move_left(memory_t *mem)
+{
+  if (mem->pointer <= 0)
   {
     printf("Pointer underflow\n");
     exit(UNDERFLOW);
   }
 
-  muutujad.pointer--;
+  mem->pointer--;
 }
 
-void move_right(void)
+void move_right(memory_t *mem)
 {
-  if (muutujad.pointer >= MEM_LENGTH)
+  if (mem->pointer >= MEM_LENGTH)
   {
     printf("Pointer overflow\n");
     exit(OVERFLOW);
   }
 
-  muutujad.pointer++;
+  mem->pointer++;
 }
 
-void dec(void)
+void dec(memory_t *mem)
 {
-  muutujad.memory[muutujad.pointer]--;
+  list_set(mem->memory, mem->pointer, list_at(mem->memory, mem->pointer) - 1);
 }
 
-void inc(void)
+void inc(memory_t *mem)
 {
-  muutujad.memory[muutujad.pointer]++;
+  list_set(mem->memory, mem->pointer, list_at(mem->memory, mem->pointer) + 1);
 }
 
+/*
 // Prindib brainfucki mälu sisu
 void print_memory(void)
 {
@@ -127,3 +136,4 @@ void right_loop(int *i, const char *src, int code_length)
     }
   }
 }
+*/

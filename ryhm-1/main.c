@@ -4,7 +4,7 @@
 
 #include "test.h"
 #include "bf.h"
-#include "mem_array.h"
+#include "mem.h"
 
 /*
  * `argc` - käsurea argumentide arv
@@ -12,8 +12,9 @@
  */
 int main(int argc, char **argv)
 {
-  const char *default_code = ",+.";
+  const char *default_code = ",.";
   interp_t params;
+  params.mem = memory_make();
 
   // = {0} algväärtustab kõik massiivi elemendid 0-ga
   char expected[OUT_LEN] = { 0 };

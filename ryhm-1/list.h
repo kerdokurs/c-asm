@@ -42,7 +42,7 @@ char list_at(list_t *list, int index);
 /**
  * Seab listis koale `index` väärtuse `value`
  */
-void list_set(list *list, int index, char value);
+void list_set(list_t *list, int index, char value);
 
 /**
  * Eemaldab kohal `index` oleva elemendi
