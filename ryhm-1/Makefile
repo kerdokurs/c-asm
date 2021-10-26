@@ -15,6 +15,12 @@ bf_list: main.c mem_list.o mem.h list.o test.o bf.o
 bf_ll: main.c mem_ll.o mem.h list.o test.o bf.o
 	$(CC) $(CFLAGS) main.c mem_ll.o list.o test.o bf.o -o $@
 
+main_mag: main_mag.c magasin.o
+	$(CC) $(CFLAGS) main_mag.c magasin.o -o main_mag
+
+test_mag: test_mag.c magasin.o test.h magasin.h
+	$(CC) $(CFLAGS) test_mag.c magasin.o -o test_mag
+
 viidad: viidad.c
 	$(CC) $(CFLAGS) viidad.c -o viidad
 
