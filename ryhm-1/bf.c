@@ -28,19 +28,18 @@ void interp(interp_t *params)
     case '>':
       move_right(params->mem);
       break;
-/*
     case '.':
-      print(params->output);
+      print(params->mem, params->output);
       break;
     case ',':
-      input();
+      input(params->mem);
       break;
     case '[':
-      left_loop(&i, params->cmd, code_length);
+      left_loop(params->mem, &i, params->cmd, code_length);
       break;
     case ']':
       // See funktsioon ei tagasta midagi, vaid muudab muutujat `i` viida alusel
-      right_loop(&i, params->cmd, code_length);
+      right_loop(params->mem, &i, params->cmd, code_length);
       break;
     case '$':
       // TODO: Implement yourself
@@ -52,7 +51,6 @@ void interp(interp_t *params)
       // For example
       // print_memory_as_int();
       break;
-*/
     }
 
     i++;

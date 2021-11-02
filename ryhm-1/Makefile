@@ -24,6 +24,9 @@ test_mag: test_mag.c magasin.o test.h magasin.h
 viidad: viidad.c
 	$(CC) $(CFLAGS) viidad.c -o viidad
 
+failid: failid.c
+	$(CC) $(CFLAGS) failid.c -o failid
+
 dyn: dyn.c list.o
 	$(CC) $(CFLAGS) dyn.c list.o -o dyn
 

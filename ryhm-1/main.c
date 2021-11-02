@@ -1,10 +1,13 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "test.h"
 #include "bf.h"
 #include "mem.h"
+
+#define DEFAULT_CMD_LEN 100
 
 /*
  * `argc` - käsurea argumentide arv
@@ -16,50 +19,84 @@ int main(int argc, char **argv)
   interp_t params;
   params.mem = memory_make();
 
-  // = {0} algväärtustab kõik massiivi elemendid 0-ga
-  char expected[OUT_LEN] = { 0 };
+  FILE *output = NULL;
+  bool output_is_file = false;
 
-  // järgnev for-tsükkel ja memset on ekvivalentsed
-  // arusaadavam ja kiirem on võib-olla memset (uuri huvi korral funktsiooni lähemalt; mida teeb memcpy?)
-  for (int i = 0; i < OUT_LEN; i++)
-    expected[i] = 0;
-  memset(expected, 0, OUT_LEN);
-
-  if (argc > 2)
+  if (argc > 1)
   {
-    char *cmd = argv[1];
-    char *output = argv[2];
-    strcpy(params.cmd, cmd);
-    strcpy(expected, output);
+    char *code_or_file = argv[1];
+
+    // Test whether a file exists
+    // Reference: https://www.gnu.org/software/libc/manual/html_node/Testing-File-Access.html
+    // printf("%d\n", access("test.txt", F_OK));
+
+    FILE *fp = fopen(code_or_file, "r");
+
+    if (fp)
+    {
+      // Argument was file
+      fseek(fp, 0, SEEK_END);
+      long size = ftell(fp);
+      rewind(fp);
+
+      params.cmd = malloc(size * sizeof(char));
+      fread(params.cmd, sizeof(char), size, fp);
+
+      fclose(fp);
+    }
+    else
+    {
+      // Argument was code or file does not exist
+      params.cmd = malloc(DEFAULT_CMD_LEN * sizeof(char));
+      strcpy(params.cmd, code_or_file);
+    }
+
+    if (argc > 2)
+    {
+      // Third argument is output file
+      output = fopen(argv[2], "a");
+
+      if (output == NULL)
+      {
+        output = stdout;
+      }
+      else
+      {
+        output_is_file = true;
+      }
+    }
+    else
+    {
+      // Write to stdout
+      output = stdout;
+    }
   }
   else
   {
-    printf("No code provided. Using default code.\n");
+    params.cmd = malloc(DEFAULT_CMD_LEN * sizeof(char));
     strcpy(params.cmd, default_code);
+    output = stdout;
   }
 
-  // ÜLESANNE
-  // TODO 1:
-  // ./bf_array +++. A >+. B
-  // 1. interpreteerib +++.
-  // 2. võrdleb tulemust "A" -> FAIL
-  // 3. interpreteerib >+.
-  // 4. võrdleb tulemust "B" -> FAIL
-  // TODO 2:
-  // tühjendab mälu, algseadistab muutujad_t väljad, kasutades reset_memory()
-  // TODO 3:
-  // kontrolli, et ükski käsk ei ületaks käsumassiivi pikkust
+  // TODO: Fix list implementation
+  // TODO: Fix and finish mem_list implementation
 
-  // hello world programm
-  // const char* str = "++++++++[>++++[>++>++>+++>+++>+<<<<-]>+>+>->>[<][<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-  // const char *str = ",[>+<-]>.";
-  // const char *str = "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+.+.+.+.";
+  params.output = output;
+
+  printf("%s\n", params.cmd);
   interp(&params);
-  printf("%s\n", params.output);
 
-  ASSERT("KOOD 1", !strcmp(params.output, expected)); // vaata `strcmp` funktsiooni
-  // 1. jooksuta programm argumentideta ja sisesta A
-  // 2. kui saad väljundiks "KOOD 1 OK", siis on võrdlemine implementeeritud õigesti
+  print_memory(params.mem);
+
+  if (params.cmd)
+  {
+    free(params.cmd);
+  }
+
+  if (output_is_file && output)
+  {
+    fclose(output);
+  }
 
   return 0;
 }

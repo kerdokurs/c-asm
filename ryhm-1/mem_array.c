@@ -3,23 +3,21 @@
 
 #include "mem.h"
 #include "error.h"
-#include "list.h"
 
-#define MEM_LENGTH 16
+#define MEM_LENGTH 8 * 32
 #define MEM_WIDTH 8
 #define MEM_HEIGHT (MEM_LENGTH / MEM_WIDTH)
 
 typedef struct memory_t
 {
-  list_t *memory;
+  char memory[MEM_LENGTH];
   int pointer;
+  int sulge;
 } memory_t;
 
 memory_t *memory_make()
 {
   memory_t *memory = malloc(sizeof(memory_t));
-  memory->memory = list_make(50);
-  memory->pointer = 0;
 
   return memory;
 }
@@ -53,49 +51,48 @@ void move_right(memory_t *mem)
 
 void dec(memory_t *mem)
 {
-  list_set(mem->memory, mem->pointer, list_at(mem->memory, mem->pointer) - 1);
+  mem->memory[mem->pointer]--;
 }
 
 void inc(memory_t *mem)
 {
-  list_set(mem->memory, mem->pointer, list_at(mem->memory, mem->pointer) + 1);
+  mem->memory[mem->pointer]++;
 }
 
-void print(memory_t *mem, FILE *output)
+void print_memory(memory_t *mem)
 {
-  fprintf(output, "%c", list_at(mem->memory, mem->pointer));
-}
-
-/*
-// Prindib brainfucki mälu sisu
-void print_memory(void)
-{
-  int i = 0;
-  for (; i < MEM_HEIGHT; i++)
+  for (int i = 0; i < MEM_HEIGHT; i++)
   {
-    int j = 0;
-    for (; j < MEM_WIDTH; j++)
+    for (int j = 0; j < MEM_WIDTH; j++)
     {
       int idx = i * MEM_HEIGHT + j;
-      printf("%d ", muutujad.memory[idx]);
+      printf("%d ", mem->memory[idx]);
     }
 
     printf("\n");
   }
 }
 
-void input(void)
+void print(memory_t *mem, FILE *output)
 {
-  scanf("%c", &muutujad.memory[muutujad.pointer]);
+  fprintf(output, "%c", mem->memory[mem->pointer]);
 }
 
-void left_loop(int *i, const char *src, int code_length)
+void input(memory_t *mem)
 {
-  if (muutujad.memory[muutujad.pointer] == 0)
-  {
-    muutujad.sulge = 1;
+  // TODO: Take input from file
+  char c = (char) getc(stdin);
+  // scanf("%c", &muutujad.memory[muutujad.pointer]);
+  mem->memory[mem->pointer] = c;
+}
 
-    while (muutujad.sulge)
+void left_loop(memory_t *mem, int *i, const char *src, int code_length)
+{
+  if (mem->memory[mem->pointer] == 0)
+  {
+    mem->sulge = 1;
+
+    while (mem->sulge)
     {
       if (*i >= code_length)
       {
@@ -105,20 +102,20 @@ void left_loop(int *i, const char *src, int code_length)
 
       (*i)++;
       if (src[*i] == '[')
-        muutujad.sulge++;
+        mem->sulge++;
       if (src[*i] == ']')
-        muutujad.sulge--;
+        mem->sulge--;
     }
   }
 }
 
-void right_loop(int *i, const char *src, int code_length)
+void right_loop(memory_t *mem, int *i, const char *src, int code_length)
 {
-  if (muutujad.memory[muutujad.pointer] != 0)
+  if (mem->memory[mem->pointer] != 0)
   {
-    muutujad.sulge = -1;
+    mem->sulge = -1;
 
-    while (muutujad.sulge)
+    while (mem->sulge)
     {
       if (*i <= 0)
       {
@@ -128,10 +125,9 @@ void right_loop(int *i, const char *src, int code_length)
 
       (*i)--;
       if (src[*i] == '[')
-        muutujad.sulge++;
+        mem->sulge++;
       if (src[*i] == ']')
-        muutujad.sulge--;
+        mem->sulge--;
     }
   }
 }
-*/

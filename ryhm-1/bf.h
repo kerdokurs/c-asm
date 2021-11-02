@@ -1,13 +1,10 @@
 #pragma once
 
-#define CMD_LEN 200 // koodi puhvri pikkus
-#define OUT_LEN 16  // väljundi puhvri pikkus
-
 // interpretaatori parameetrid
 typedef struct
 {
-  char cmd[CMD_LEN];    // sisendkäsk, mis tuleb argumendina käsurealt
-  char output[OUT_LEN]; // programmi väljund
+  char *cmd;    // sisendkäsk, mis tuleb argumendina käsurealt
+  FILE *output;
   void *mem;
 } interp_t;
 

@@ -12,10 +12,10 @@ void move_right(memory_t *mem);
 void dec(memory_t *mem);
 void inc(memory_t *mem);
 
-void print_memory(void);
+void print_memory(memory_t *mem);
 
-void print(char* result);
-void input(void);
+void print(memory_t *mem, FILE *output);
+void input(memory_t *mem);
 
-void left_loop(int *i, const char* src, int code_length);
-void right_loop(int *i, const char* src, int code_length);
+void left_loop(memory_t *mem, int *i, const char* src, int code_length);
+void right_loop(memory_t *mem, int *i, const char* src, int code_length);
