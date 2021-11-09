@@ -1,7 +1,9 @@
 CC = gcc
 CFLAGS = -std=c99 -g
 
-all: $(BIN)
+BINS=queue
+
+all: $(BINS)
 
 bf: bf.c
 	$(CC) $(CFLAGS) bf.c -o bf
@@ -23,6 +25,9 @@ test_mag: test_mag.c magasin.o test.h magasin.h
 
 viidad: viidad.c
 	$(CC) $(CFLAGS) viidad.c -o viidad
+
+puud: puud.c
+	$(CC) $(CFLAGS) $< -o $@
 
 failid: failid.c
 	$(CC) $(CFLAGS) failid.c -o failid
