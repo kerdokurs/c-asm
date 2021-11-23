@@ -19,17 +19,14 @@ main:
   mov ecx, 0       ; loendur
 
 loop:
-  mov edx, ecx
-  mov edi, [ebx+edx*4]
+  mov edi, [ebx+ecx*4] ; argv[ecx] v *(argv + ecx)
   push eax
-  push ebx
   push ecx
   push edi
   push out
   call printf
   add esp, 8
   pop ecx
-  pop ebx
   pop eax
   
   inc ecx
