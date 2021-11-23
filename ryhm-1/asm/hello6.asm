@@ -7,34 +7,39 @@ section .text
 
 ;;; Main funktsioon
 main:
-  ; Prindi numbrid ühest 10-ni
+  ; Prindi numbrid 1-st 10-ni
+
+  ; loop <label>
+  ; ecx-- ja if (ecx != 0) goto <label>
 
   mov ebx, 1
+  mov ecx, 10
   ; printf(output, ecx);
   ;        "%d\n",   1;
 
   ; Saab kasutada, et kirjutada muutujasse `output`
   ; mov [output], ebx
 
-  sub esp, 4
+  ; ecx, (ebx, output)
+  sub esp, 8
   push output
 
-loop:
+kordus:
+  mov [esp+8], ecx ; printf rikub ecx ära
   mov [esp+4], ebx
 
   call printf
 
-  ; add ebx, 1
+  mov ecx, [esp+8]
+  
   inc ebx
 
-  cmp ebx, 10
-  ; jg end
-  ; jmp loop
-  jle loop
+  ; loop <label>
+  ; ecx--
+  ; if (ecx != 0) goto <label>
+  loop kordus
 
-; end:
-
-  add esp, 8  
+  add esp, 12
 
   ; Return 0
   mov eax, 0
