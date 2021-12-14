@@ -9,15 +9,19 @@ section .text
 ;;; (argc,   argv)
 ;;; (esp+4, esp+8)
 main:
-  mov eax, [esp+4] ; argc
-  mov ebx, [esp+8] ; argv
+  %define argc [esp+4]
+  %define argv [esp+8]
+  %define index(reg, idx) reg+idx*4
+
+  mov eax, argc ; argc
+  mov ebx, argv ; argv ((char *)*)
   mov ecx, 0       ; loendur
 
 kordus:
   ; argv[i]
   ; int ebx[5];
   ; *(ebx + 1) == ebx[1]
-  mov edi, [ebx+ecx*4] ; *(argv + ecx*4)
+  mov edi, [index(ebx, ecx)] ; *(argv + ecx*4)
 
   ; eax ja ecx rikutakse ära, peame meelde jätma
   push eax
